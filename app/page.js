@@ -68,6 +68,7 @@ export default function Home() {
           </select>
           <button id="destination-submit">Navigate!</button>
         </div>
+        {error}
         {path&&path[0]}
 
       {/* {compass} */}
