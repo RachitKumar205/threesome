@@ -158,7 +158,7 @@ export default function Home() {
           </div>
         </>
       )}
-      {!isLoading && !error && ({compass})}
+      {!isLoading && !error && compass}
 
     </div>
   )
