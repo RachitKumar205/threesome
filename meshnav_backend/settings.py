@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-r35j=j9_$h&at6p+ac1ze@cbaw(rht&f_f&&ec$h#j@&oir4e+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost', "meshnav-frontend.vercel.app"]
+ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1', 'http://localhost:8000']
 
@@ -38,7 +38,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://meshnav-frontend.vercel.app"
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+
 # Application definition
 
 INSTALLED_APPS = [
