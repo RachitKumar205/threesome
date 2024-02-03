@@ -36,7 +36,7 @@ export default function SelectDestination({ setDestination }) {
       {isLoading && <p>Loading destinations...</p>}
       {error && <p>Error fetching destinations: {error.message}</p>}
       {!isLoading && !error && (
-        <>
+        <div className="flex flex-col justify-center items-center">
           <select id="select-destination">
             {destinations.map((item) => (
               <option key={item.id} value={item.id}>
@@ -45,7 +45,7 @@ export default function SelectDestination({ setDestination }) {
             ))}
           </select>
           <button id="submit-destination">Navigate</button>
-        </>
+        </div>
       )}
     </div>
   );

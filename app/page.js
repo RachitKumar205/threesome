@@ -8,6 +8,7 @@ import SelectDestination from "@/components/SelectDestination/SelectDestination"
 import {getDistance, getPreciseDistance, isPointWithinRadius} from "geolib";
 
 import arrowDarkSVG from "../public/arrow-dark.svg";
+import Compass from "@/components/Compass/Compass";
 
 export default function Home() {
   const [destination, setDestination] = useState(null);
@@ -24,10 +25,10 @@ export default function Home() {
   
   
   const changeDestination = (destination) => {
-    if (!compassToggled) {
-      requestAccess();
-      setCompassToggled(true); 
-    }
+    // if (!compassToggled) {
+    //   requestAccess();
+    //   setCompassToggled(true); 
+    // }
     setDestination(destination);
     setIsLoading(true);
     (async () => {
@@ -126,56 +127,89 @@ export default function Home() {
     }
   }, [latitude, longitude, nextWaypoint])
 
-  const compass1 = (
-    <div className="compass">
-      <p>nextWaypoint - {nextWaypointHeading}</p>
-      <p>Alpha - {orientation && orientation.alpha}</p>
-      <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}</p>
-      <Image
-        src={arrowDarkSVG}
-        style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}deg)`}}
-      />
-    </div>
-  )
+  // const compass1 = (
+  //   <div className="compass">
+  //     <p>nextWaypoint - {nextWaypointHeading}</p>
+  //     <p>Alpha - {orientation && orientation.alpha}</p>
+  //     <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}</p>
+  //     <Image
+  //       src={arrowDarkSVG}
+  //       style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}deg)`}}
+  //     />
+  //   </div>
+  // )
 
-  const compass2 = (
-    <div className="compass">
-      <p>nextWaypoint - {nextWaypointHeading}</p>
-      <p>Alpha - {orientation && orientation.alpha}</p>
-      <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}</p>
-      <Image
-        src={arrowDarkSVG}
-        style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}deg)`}}
-      />
-    </div>
-  )
+  const compass = () => {
+    return (
+      <div className="compass">
+        <p>Alpha : {orientation.alpha}</p>
+        <p>Alpha-360 : {orientation.alpha - 360}</p>
+        <p></p>
+      </div>
+    )
+  }
+
+  // const compass2 = (
+  //   <div className="compass">
+  //     <p>nextWaypoint - {nextWaypointHeading}</p>
+  //     <p>Alpha - {orientation && orientation.alpha}</p>
+  //     <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}</p>
+  //     <Image
+  //       src={arrowDarkSVG}
+  //       style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}deg)`}}
+  //     />
+  //   </div>
+  // )
 
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
-      <p>
-      {latitude}
-      </p>
-      <p>
-      {longitude}
-
-      </p>
-      <SelectDestination
-        setDestination={changeDestination}
-      />
+      <p>Current latitude - {latitude}</p>
+      <p>Current longitude - {longitude}</p>
+      <SelectDestination setDestination={changeDestination}/>
       {isLoading && <p>Loading Path...</p>}
       {!isLoading && !error && (
         <>
-          <div>
-            Angle - {nextWaypointHeading}
-            Alpha - {orientation.alpha}
-            {path.map((item) => (
-              <p>{item.latitude}</p>
+          <div className="diagnostics">
+            Waypoints List- 
+            {path.map((element, index) => (
+                <p>{index} - {element.latitude}, {element.longitude}</p>
             ))}
+            <p>Next Waypoint - {nextWaypoint.latitude}, {nextWaypoint.longitude}</p>
+            <p>Distance - {distance}</p>
+            <p>Angle to next waypoint - {nextWaypointHeading}</p>
+            <p>180+Angle to next waypoint - {180+nextWaypointHeading}</p>
+          </div>
+          <div className="compass">
+            <Compass
+              northReset={360-orientation.alpha}
+              waypointHeading={nextWaypointHeading}
+              testOffset={0}
+            />
+            <Compass
+              northReset={360-orientation.alpha}
+              waypointHeading={nextWaypointHeading}
+              testOffset={90}
+            />
+            <Compass
+              northReset={360-orientation.alpha}
+              waypointHeading={nextWaypointHeading}
+              testOffset={180}
+            />
+            <Compass
+              northReset={360-orientation.alpha}
+              waypointHeading={nextWaypointHeading}
+              testOffset={360}
+            />
+            <Compass
+              northReset={360-orientation.alpha}
+              waypointHeading={0}
+              testOffset={0}
+            />
           </div>
         </>
       )}
-      {!isLoading && !error && compass1}
-      {!isLoading && !error && compass2}
+      {/* {!isLoading && !error && compass1}
+      {!isLoading && !error && compass2} */}
 
     </div>
   )
