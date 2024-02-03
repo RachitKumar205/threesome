@@ -133,6 +133,7 @@ export default function Home() {
       {!isLoading && !error && (
         <>
           <div>
+            Angle - {nextWaypointHeading}
             {path.map((item) => (
               <p>{item.latitude}</p>
             ))}
