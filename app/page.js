@@ -173,7 +173,7 @@ export default function Home() {
           <div className="diagnostics">
             Waypoints List- 
             {path.map((element, index) => (
-                <p>{index} - {element.latitude}, {element.longitude}</p>
+                <p>{index} - {element.latitude}, {element.longitude} - {element.wp_id}</p>
             ))}
             <p>Next Waypoint - {nextWaypoint.latitude}, {nextWaypoint.longitude}</p>
             <p>Distance - {distance}</p>
