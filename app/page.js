@@ -152,6 +152,7 @@ export default function Home() {
         <>
           <div>
             Angle - {nextWaypointHeading}
+            Alpha - {orientation.alpha}
             {path.map((item) => (
               <p>{item.latitude}</p>
             ))}
