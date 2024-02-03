@@ -41,6 +41,7 @@ export const useDeviceOrientation = () => {
             }
         }
         window.addEventListener("deviceorientationabsolute", onDeviceOrientation, true);  
+        console.log("added compass listener")
         return true;
     }
 
