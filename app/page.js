@@ -126,6 +126,15 @@ export default function Home() {
     }
   }, [latitude, longitude, nextWaypoint])
 
+  const compass = (
+    <div className="compass">
+      <Image
+        src={arrowDarkSVG}
+        style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360)})deg`}}
+      />
+    </div>
+  )
+
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
       <p>
@@ -149,14 +158,7 @@ export default function Home() {
           </div>
         </>
       )}
-      {!isLoading && !error && (
-        <div className="compass">
-          <Image
-            src={arrowDarkSVG}
-            style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360)})deg`}}
-          />
-        </div>
-      )}
+      {!isLoading && !error && ({compass})}
 
     </div>
   )
