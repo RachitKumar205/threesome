@@ -132,7 +132,7 @@ export default function Home() {
       <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
       <Image
         src={arrowDarkSVG}
-        style={{transform: `rotate(${Math.round((orientation && orientation.alpha) - 360)}deg)`}}
+        style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360 + nextWaypointHeading)}deg)`}}
       />
     </div>
   )
