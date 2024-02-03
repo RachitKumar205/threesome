@@ -110,14 +110,22 @@ export default function Home() {
 
   useEffect(() => {
     if (nextWaypoint) {
-      const compassHeading = getRhumbLineBearing({
-        latitude: latitude,
-        longitude: longitude,
-      }, {
-        latitude: nextWaypoint.latitude,
-        longitude: nextWaypoint.longitude,
-      })
-      setNextWaypointHeading(compassHeading);
+      // const compassHeading = getRhumbLineBearing({
+      //   latitude: latitude,
+      //   longitude: longitude,
+      // }, {
+      //   latitude: nextWaypoint.latitude,
+      //   longitude: nextWaypoint.longitude,
+      // })
+
+      const deltaX = nextWaypoint.latitude - latitude
+      const deltaY = nextWaypoint.longitude - longitude
+
+      const angleInRadians = Math.atan(deltaY, deltaX);
+      const angleInDegress = (angleInRadians * 180) / Math.PI - 90;
+      const normalizedAngle = (angleInDegress + 360) % 360;
+
+      setNextWaypointHeading(normalizedAngle);
     }
   }, [latitude, longitude, nextWaypoint])
 
