@@ -22,7 +22,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [compassToggled, setCompassToggled] = useState(false);
   const [orientation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
-  
+  const [reachedDestination, setReachedDestination] = useState(false);
   
   const changeDestination = (destination) => {
     if (!compassToggled) {
@@ -84,10 +84,11 @@ export default function Home() {
           ));
 
           if (distance <= 5) {
-            setPath(path.slice(1));
             if (path.length > 0) {
+              setPath(path.slice(1));
               setNextWaypoint(path[0]);
             } else {
+              setReachedDestination(true);
               setNextWaypoint(null);
             }
           }
@@ -166,7 +167,8 @@ export default function Home() {
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
       <p>Current Coords - {latitude}, {longitude}</p>
-      <SelectDestination setDestination={changeDestination}/>
+      <p>{reachedDestination ? "Reached" : ""}</p>
+      {latitude && longitude && (<SelectDestination setDestination={changeDestination}/>)}
       {isLoading && <p>Loading Path...</p>}
       {!isLoading && !error && (
         <>
@@ -175,7 +177,7 @@ export default function Home() {
             {path.map((element, index) => (
                 <p>{index} - {element.latitude}, {element.longitude} - {element.wp_id}</p>
             ))}
-            <p>Next Waypoint - {nextWaypoint.latitude}, {nextWaypoint.longitude}</p>
+            <p>Next Waypoint - {nextWaypoint.latitude}, {nextWaypoint.longitude} - {nextWaypoint.wp_id}</p>
             <p>Distance - {distance}</p>
             <p>Angle to next waypoint - {nextWaypointHeading}</p>
             <p>180+Angle to next waypoint - {180+nextWaypointHeading}</p>
