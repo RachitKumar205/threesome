@@ -232,7 +232,7 @@ export default function Home() {
               <p>waypointHeading - {nextWaypointHeading}</p>
               <p>testOffset - {360}</p>
 
-              <p>1+2 - {(nextWaypointHeading + testOffset) - 360 * (Math.floor((nextWaypointHeading + 90)/360))}</p>
+              <p>1+2 - {(nextWaypointHeading + 360) - 360 * (Math.floor((nextWaypointHeading + 90)/360))}</p>
               <hr/>
             </div>
             {/* <Compass
