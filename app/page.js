@@ -26,7 +26,7 @@ export default function Home() {
             `https://snunav.azurewebsites.net/meshnav/`
           )
           console.log(response);
-          setPath(response);
+          setPath(response["data"]);
         } catch (error) {
           setError(error);
         }
