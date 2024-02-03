@@ -172,31 +172,31 @@ export default function Home() {
             <p>Angle to next waypoint - {nextWaypointHeading}</p>
             <p>180+Angle to next waypoint - {180+nextWaypointHeading}</p>
             <p>alpha - {(orientation && orientation.alpha)}</p>
-            <p>north - {(orientation && orientation.alpha)??360 - 360}</p>
+            <p>north - {((orientation && orientation.alpha)??360) - 360}</p>
           </div>
           <div className="compi">
             <Compass
-              northReset={(orientation && orientation.alpha)??360 - 360}
+              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={0}
             />
             <Compass
-              northReset={(orientation && orientation.alpha)??360 - 360}
+              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={90}
             />
             <Compass
-              northReset={(orientation && orientation.alpha)??360 - 360}
+              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={180}
             />
             <Compass
-              northReset={(orientation && orientation.alpha)??360 - 360}
+              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={270}
             />
             <Compass
-              northReset={(orientation && orientation.alpha)??360 - 360}
+              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={0}
               testOffset={0}
             />
