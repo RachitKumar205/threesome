@@ -126,13 +126,24 @@ export default function Home() {
     }
   }, [latitude, longitude, nextWaypoint])
 
-  const compass = (
+  const compass1 = (
     <div className="compass">
       <p>Alpha - {orientation && orientation.alpha}</p>
       <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
       <Image
         src={arrowDarkSVG}
         style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360 + nextWaypointHeading)}deg)`}}
+      />
+    </div>
+  )
+
+  const compass2 = (
+    <div className="compass">
+      <p>Alpha - {orientation && orientation.alpha}</p>
+      <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
+      <Image
+        src={arrowDarkSVG}
+        style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360 - nextWaypointHeading)}deg)`}}
       />
     </div>
   )
@@ -161,7 +172,8 @@ export default function Home() {
           </div>
         </>
       )}
-      {!isLoading && !error && compass}
+      {!isLoading && !error && compass1}
+      {!isLoading && !error && compass2}
 
     </div>
   )
