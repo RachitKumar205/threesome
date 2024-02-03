@@ -23,14 +23,14 @@ export default function Home() {
       (async () => {
         try {
           const response = await axios.get(
-            `https://offset-frontend.vercel.app/`
+            `https://snunav.azurewebsites.net/meshnav/`
           )
           setPath(response);
         } catch (error) {
           setError(error);
         }
       })();
-      
+
       if (!isToggled) {
         requestAccess();
         setIsToggled(true);
@@ -68,7 +68,7 @@ export default function Home() {
           </select>
           <button id="destination-submit">Navigate!</button>
         </div>
-        {path}
+        {path&&path[0]}
 
       {/* {compass} */}
       </div>
