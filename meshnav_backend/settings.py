@@ -32,6 +32,10 @@ ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost','offset-frontend.verce
 
 CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1', 'http://localhost:8000','https://offset-frontend.vercel.app']
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:8000",
