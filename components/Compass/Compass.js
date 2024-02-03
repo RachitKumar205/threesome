@@ -6,12 +6,12 @@ export default function Compass({northReset, waypointHeading, testOffset}) {
     <div className="compass">
       <Image
         src={arrowDarkSvg}
-        style={{transform: `rotate(${northReset + waypointHeading + testOffset}deg)`}}
+        style={{transform: `rotate(${northReset + ((waypointHeading + testOffset) - 360 * (Math.floor((waypointHeading + testOffset)/360)))}deg)`}}
       />
       <p>waypointHeading - {waypointHeading}</p>
       <p>testOffset - {testOffset}</p>
-
       <p>1+2 - {(waypointHeading + testOffset) - 360 * (Math.floor((waypointHeading + testOffset)/360))}</p>
+      <p>Resultant - {northReset + (waypointHeading + testOffset) - 360 * (Math.floor((waypointHeading + testOffset)/360))}</p>
       <hr/>
     </div>   
   )

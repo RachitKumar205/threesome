@@ -181,7 +181,7 @@ export default function Home() {
             <p>north - {(orientation && orientation.alpha)??360 - 360}</p>
           </div>
           <div className="compi">
-            <div className="compass">
+            {/* <div className="compass">
               <Image
                 src={arrowDarkSvg}
                 style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 0}deg)`}}
@@ -210,8 +210,8 @@ export default function Home() {
               />
               <p>waypointHeading - {nextWaypointHeading}</p>
               <p>testOffset - {180}</p>
-
               <p>1+2 - {(nextWaypointHeading + 180) - 360 * (Math.floor((nextWaypointHeading + 180)/360))}</p>
+              <p>Final - {}</p>
               <hr/>
             </div>
             <div className="compass">
@@ -235,8 +235,8 @@ export default function Home() {
 
               <p>1+2 - {(nextWaypointHeading + 360) - 360 * (Math.floor((nextWaypointHeading + 90)/360))}</p>
               <hr/>
-            </div>
-            {/* <Compass
+            </div> */}
+            <Compass
               northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={0}
@@ -254,13 +254,13 @@ export default function Home() {
             <Compass
               northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
-              testOffset={360}
+              testOffset={270}
             />
             <Compass
               northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={0}
               testOffset={0}
-            /> */}
+            />
           </div>
         </>
       )}
