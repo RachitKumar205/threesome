@@ -128,6 +128,7 @@ export default function Home() {
 
   const compass1 = (
     <div className="compass">
+      <p>nextWaypoint - {nextWaypointHeading}</p>
       <p>Alpha - {orientation && orientation.alpha}</p>
       <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
       <Image
@@ -139,6 +140,7 @@ export default function Home() {
 
   const compass2 = (
     <div className="compass">
+      <p>nextWaypoint - {nextWaypointHeading}</p>
       <p>Alpha - {orientation && orientation.alpha}</p>
       <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
       <Image
