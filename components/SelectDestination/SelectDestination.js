@@ -9,7 +9,7 @@ export default function SelectDestination({ setDestination }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("https://snunav.azurewebsites.net/meshnav/");
+        const response = await axios.get("https://meshnav.azurewebsites.net/nav/");
         setDestinations(response.data);
       } catch (error) {
         setError(error);

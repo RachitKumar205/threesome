@@ -37,7 +37,7 @@ export default function Home() {
         console.log(latitude);
         console.log(longitude);
         const response = await fetch(
-          "https://snunav.azurewebsites.net/api/path-api/",
+          "https://meshnav.azurewebsites.net/api/path-api/",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
