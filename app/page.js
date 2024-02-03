@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import SelectDestination from "@/components/SelectDestination/SelectDestination";
 
-import {getDistance, getRhumbLineBearing, getGreatCircleBearing, isPointWithinRadius} from "geolib";
+import {getDistance, getRhumbLineBearing, getGreatCircleBearing} from "geolib";
 
 import arrowDarkSvg from "../public/arrow-dark.svg";
 import Compass from "@/components/Compass/Compass";
@@ -23,8 +23,6 @@ export default function Home() {
   const [compassToggled, setCompassToggled] = useState(false);
   const [orientation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
   const [reachedDestination, setReachedDestination] = useState(false);
-  const [hasFetchedPathData, setHasFetchedPathData] = useState(false);
-  const [inWaypoint, setInWaypoint] = useState(false);
   
   const changeDestination = (destination) => {
     if (!compassToggled) {
@@ -59,7 +57,6 @@ export default function Home() {
         const data = await response.json()
         setPath(data);
         setNextWaypoint(data[0]);
-        setHasFetchedPathData(true);
       } catch (error) {
         setError(error);
       } finally {
@@ -86,28 +83,14 @@ export default function Home() {
             }
           ));
 
-          if (isPointWithinRadius(
-              { latitude: latitude, longitude: longitude },
-              {
-                latitude: nextWaypoint.latitude,
-                longitude: nextWaypoint.longitude,
-              },
-              5
-          )) {
-            // Remove the first element from responseData
-            setPath(path.slice(1));
-            setInWaypoint(true);
-
-            // Update currentWaypoint if more waypoints exist
+          if (distance <= 5) {
             if (path.length > 0) {
+              setPath(path.slice(1));
               setNextWaypoint(path[0]);
             } else {
-              // Destination reached
               setReachedDestination(true);
+              setNextWaypoint(null);
             }
-          }
-          else{
-            setInWaypoint(false);
           }
 
         }
