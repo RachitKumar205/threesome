@@ -130,7 +130,7 @@ export default function Home() {
     <div className="compass">
       <p>nextWaypoint - {nextWaypointHeading}</p>
       <p>Alpha - {orientation && orientation.alpha}</p>
-      <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
+      <p>Rotation - {Math.round((orientation && orientation.alpha)??360 - 360 + nextWaypointHeading)}</p>
       <Image
         src={arrowDarkSVG}
         style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360 + nextWaypointHeading)}deg)`}}
@@ -142,7 +142,7 @@ export default function Home() {
     <div className="compass">
       <p>nextWaypoint - {nextWaypointHeading}</p>
       <p>Alpha - {orientation && orientation.alpha}</p>
-      <p>Rotation - {Math.round((orientation && orientation.alpha) - 360)}</p>
+      <p>Rotation - {Math.round((orientation && orientation.alpha)??360 - 360 - nextWaypointHeading)}</p>
       <Image
         src={arrowDarkSVG}
         style={{transform: `rotate(${Math.round((orientation && orientation.alpha)??360 - 360 - nextWaypointHeading)}deg)`}}
