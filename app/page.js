@@ -3,13 +3,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDeviceOrientation } from "./deviceOrientationHook";
 
+import arrowDark from "../public/arrow-dark.png"
+
 export default function Home() {
   const [orienation, requestAccess, revokeAccess, error] = useDeviceOrientation();
   const [isToggled, setIsToggled] = useState(false);
   const [destination, setDestination] = useState(null);
 
   useEffect(() => {
-    // Access the destination value within useEffect to ensure client-side execution
     const handleClick = () => {
       if (!isToggled) {
         requestAccess();
@@ -19,35 +20,37 @@ export default function Home() {
       setDestination(selectedDestination);
     };
 
-    const button = document.querySelector("button"); // Assuming a single button
+    const button = document.getElementById("destination-submit");
     button.addEventListener("click", handleClick);
 
-    // Cleanup function to remove the event listener
+    // Cleanup function
     return () => {
       button.removeEventListener("click", handleClick);
     };
   }, []);
 
   const compass = orienation && (
-    <div>
-      sex
+    <div className="flex flex-col justify-center items-center">
+      <Image
+        src={arrowDark}
+        style={{transform: `rotate(${Math.round(orienation.alpha - 360)}deg)`}}
+      />
       {orienation.alpha}
     </div>
   );
 
   return (
     <main>
-      <div className="app h-screen flex flex-col">
-        <div className="select flex flex-col">
+      <div className="app h-screen flex flex-col justify-center items-center">
+
+        <div className="select flex flex-col justify-center items-center">
           <select name="destination" id="destination-select">
             <option value="test">Tets</option>
           </select>
-          <button>Navigate!</button>
+          <button id="destination-submit">Navigate!</button>
         </div>
 
-        <div>
-          {compass}
-        </div>
+      {compass}
       </div>
     </main>
     
