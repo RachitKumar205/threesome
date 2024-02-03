@@ -129,6 +129,16 @@ export default function Home() {
       <SelectDestination
         setDestination={changeDestination}
       />
+      {isLoading && <p>Loading Path...</p>}
+      {!isLoading && !error && (
+        <>
+          <div>
+            {path.map((item) => (
+              <p>{item.latitude}</p>
+            ))}
+          </div>
+        </>
+      )}
       {!isLoading && !error && (
         <div className="compass">
           <Image
@@ -138,15 +148,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* {!isLoading && !error && (
-        <>
-          <div>
-            {path.map((item) => (
-              <p>{item.latitude}</p>
-            ))}
-          </div>
-        </>
-      )} */}
     </div>
   )
 
