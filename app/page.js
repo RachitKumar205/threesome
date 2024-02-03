@@ -128,6 +128,7 @@ export default function Home() {
 
   const compass = (
     <div className="compass">
+      <p>Alpha - {orientation && orientation.alpha}</p>
       <Image
         src={arrowDarkSVG}
         style={{transform: `rotate(${Math.round((orientation && orientation.alpha) - 360)})deg`}}
