@@ -7,7 +7,7 @@ import SelectDestination from "@/components/SelectDestination/SelectDestination"
 
 import {getDistance, getPreciseDistance, isPointWithinRadius} from "geolib";
 
-import arrowDarkSVG from "../public/arrow-dark.svg";
+import arrowDarkSvg from "../public/arrow-dark.svg";
 import Compass from "@/components/Compass/Compass";
 
 export default function Home() {
