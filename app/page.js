@@ -8,13 +8,25 @@ export default function Home() {
   const [isToggled, setIsToggled] = useState(false);
   const [destination, setDestination] = useState(null);
 
-  const navigateClick = () => {
-    if (!isToggled) {
-      requestAccess();
-      setIsToggled(true);
-    }
-    setDestination(document.getElementById("destination-select").value);
-  }
+  useEffect(() => {
+    // Access the destination value within useEffect to ensure client-side execution
+    const handleClick = () => {
+      if (!isToggled) {
+        requestAccess();
+        setIsToggled(true);
+      }
+      const selectedDestination = document.getElementById("destination-select").value;
+      setDestination(selectedDestination);
+    };
+
+    const button = document.querySelector("button"); // Assuming a single button
+    button.addEventListener("click", handleClick);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      button.removeEventListener("click", handleClick);
+    };
+  }, []);
 
   const compass = orienation && (
     <div>
