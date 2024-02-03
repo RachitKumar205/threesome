@@ -25,10 +25,10 @@ export default function Home() {
   
   
   const changeDestination = (destination) => {
-    // if (!compassToggled) {
-    //   requestAccess();
-    //   setCompassToggled(true); 
-    // }
+    if (!compassToggled) {
+      requestAccess();
+      setCompassToggled(true); 
+    }
     setDestination(destination);
     setIsLoading(true);
     (async () => {
