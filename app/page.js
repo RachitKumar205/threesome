@@ -196,6 +196,17 @@ export default function Home() {
               })}
               testOffset={0}
             />
+            <Compass
+              northReset={((orientation && orientation.alpha)??360) - 360}
+              waypointHeading={getGreatCircleBearing({
+                latitude: latitude,
+                longitude: longitude,
+              }, {
+                latitude: 28.523798,
+                longitude: 77.573671,
+              })}
+              testOffset={180}
+            />
           </div>
         </>
       )}
