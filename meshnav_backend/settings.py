@@ -28,14 +28,15 @@ SECRET_KEY = "django-insecure-r35j=j9_$h&at6p+ac1ze@cbaw(rht&f_f&&ec$h#j@&oir4e+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost']
+ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost','offset-frontend.vercel.app']
 
-CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1', 'http://localhost:8000']
+CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1', 'http://localhost:8000','https://offset-frontend.vercel.app']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:8000",
-    "https://meshnav-frontend.vercel.app"
+    "https://meshnav-frontend.vercel.app",
+    'https://offset-frontend.vercel.app'
 ]
 
 
@@ -127,7 +128,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
