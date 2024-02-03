@@ -181,27 +181,27 @@ export default function Home() {
           </div>
           <div className="compass">
             <Compass
-              northReset={360-orientation.alpha}
+              northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={0}
             />
             <Compass
-              northReset={360-orientation.alpha}
+              northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={90}
             />
             <Compass
-              northReset={360-orientation.alpha}
+              northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={180}
             />
             <Compass
-              northReset={360-orientation.alpha}
+              northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
               testOffset={360}
             />
             <Compass
-              northReset={360-orientation.alpha}
+              northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={0}
               testOffset={0}
             />

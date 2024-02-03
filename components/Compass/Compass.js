@@ -10,6 +10,10 @@ export default function Compass({northReset, waypointHeading, testOffset}) {
       />
       <p>waypointHeading - {waypointHeading}</p>
       <p>testOffset - {testOffset}</p>
+
+      <p>1+2 - {(waypointHeading + testOffset)}</p>
+      <p>1+2 - {(waypointHeading + testOffset) - 360 * (Math.floor((waypointHeading + testOffset)/360))}</p>
+      <hr/>
     </div>   
   )
 }
