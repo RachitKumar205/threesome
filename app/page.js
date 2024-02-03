@@ -142,7 +142,7 @@ export default function Home() {
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
       <p>Current Coords - {latitude}, {longitude}</p>
-      <p>{reachedDestination ? "Reached" : ""}</p>
+      <p>{reachedDestination ? "Reached" : "Not Reached"}</p>
       {latitude && longitude && (<SelectDestination setDestination={changeDestination}/>)}
       {isLoading && <p>Loading Path...</p>}
       {!isLoading && !error && (
@@ -162,31 +162,6 @@ export default function Home() {
           <div className="compi">
             <Compass
               northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={nextWaypointHeading}
-              testOffset={0}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={nextWaypointHeading}
-              testOffset={90}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={nextWaypointHeading}
-              testOffset={180}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={nextWaypointHeading}
-              testOffset={270}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={0}
-              testOffset={0}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={getGreatCircleBearing({
                 latitude: latitude,
                 longitude: longitude,
@@ -195,17 +170,6 @@ export default function Home() {
                 longitude: 77.573671,
               })}
               testOffset={0}
-            />
-            <Compass
-              northReset={((orientation && orientation.alpha)??360) - 360}
-              waypointHeading={getGreatCircleBearing({
-                latitude: latitude,
-                longitude: longitude,
-              }, {
-                latitude: 28.523798,
-                longitude: 77.573671,
-              })}
-              testOffset={180}
             />
           </div>
         </>
