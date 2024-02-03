@@ -69,7 +69,7 @@ export default function Home() {
           <button id="destination-submit">Navigate!</button>
         </div>
         {error??"sex"}
-        {path??path[0]}
+        {path}
 
       {/* {compass} */}
       </div>
