@@ -3,13 +3,17 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDeviceOrientation } from "./deviceOrientationHook";
 
-import arrowDark from "../public/arrow-dark.png"
+import arrowDark from "../public/arrow-dark.svg"
 
 export default function Home() {
   const [orienation, requestAccess, revokeAccess, error] = useDeviceOrientation();
   const [isToggled, setIsToggled] = useState(false);
   const [destination, setDestination] = useState(null);
 
+  // Getting coordinates
+
+
+  // Getting compass heading
   useEffect(() => {
     const handleClick = () => {
       if (!isToggled) {
@@ -29,13 +33,13 @@ export default function Home() {
     };
   }, []);
 
-  const compass = orienation && (
+  const compass = (
     <div className="flex flex-col justify-center items-center">
       <Image
         src={arrowDark}
-        style={{transform: `rotate(${Math.round(orienation.alpha - 360)}deg)`}}
+        style={{transform: `rotate(${Math.round((orienation && orienation.alpha)??360 - 360)}deg)`}}
       />
-      {orienation.alpha}
+      {/* {360 - orienation.alpha} */}
     </div>
   );
 

@@ -1,0 +1,6 @@
+<svg id="arrow-dark" width="150" height="300" xmlns="http://www.w3.org/2000/svg">
+    <polygon
+        points="75 0, 150 300, 75 200, 0 300"
+        style="fill:white"
+    />
+</svg>
