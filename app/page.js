@@ -1,80 +1,123 @@
 "use client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useDeviceOrientation } from "./deviceOrientationHook";
-import axios from "axios";
 
-import arrowDark from "../public/arrow-dark.svg"
+import { useState, useEffect } from "react";
+import { useDeviceOrientation } from "./deviceOrientationHook";
+import Image from "next/image";
+
+import axios from "axios";
+import {getDistance, getPreciseDistance, isPointWithinRadius} from "geolib";
+
+import SelectDestination from "@/components/SelectDestination/SelectDestination";
 
 export default function Home() {
-  const [orienation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
-  const [isToggled, setIsToggled] = useState(false);
   const [destination, setDestination] = useState(null);
+  const [isToggled, setIsToggled] = useState(false);
+  const [orienation, requestAccess, revokeAccess, orienationError] = useDeviceOrientation();
+  const [path, setPath] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [path, setPath] = useState(null);
   const [error, setError] = useState(null);
+  const [distance, setDistance] = useState(null);
+  const [destinationReached, setDestinationReached] = useState(false);
 
-  // Getting coordinates
+  const changeDestination = (destination) => {
+    console.log(destination)
+    console.log(latitude)
+    console.log(longitude)
+    setDestination(destination);
+    (async () => {
+      try {
+        const response = await fetch(
+          "https://snunav.azurewebsites.net/api/path-api/",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              latitude,
+              longitude,
+              target: destination.name,
+              type: 'coordinates',
+            }),
+          }
+        );
 
-  // Getting compass heading
-  useEffect(() => {
-    const handleClick = () => {
-      (async () => {
-        try {
-          const response = await axios.get(
-            `https://snunav.azurewebsites.net/meshnav/`
-          )
-          console.log(response);
-          setPath(response["data"]);
-        } catch (error) {
-          setError(error);
+        if (!response.ok) {
+          throw new Error("API request failed");
         }
-      })();
 
-      if (!isToggled) {
-        requestAccess();
-        setIsToggled(true);
+        const data = await response.json();
+        console.log(data);
+        setPath(data);
+        
+      } catch (error) {
+        setError(error);
       }
-      const selectedDestination = document.getElementById("destination-select").value;
-      setDestination(selectedDestination);
-    };
 
-    const button = document.getElementById("destination-submit");
-    button.addEventListener("click", handleClick);
+    })();
+  }
 
-    // Cleanup function
-    return () => {
-      button.removeEventListener("click", handleClick);
-    };
-  }, []);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      const watchId = navigator.geolocation.watchPosition(
+          (position) => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
 
-  const compass = (
-    <div className="flex flex-col justify-center items-center">
-      <Image
-        src={arrowDark}
-        style={{transform: `rotate(${Math.round((orienation && orienation.alpha)??360 - 360)}deg)`}}
-      />
-      {/* {360 - orienation.alpha} */}
-    </div>
-  );
+            // Calculate distance only if both latitude, longitude, and responseData[0] are available
+            if (latitude && longitude && path && path[0]) {
+              setDistance(getDistance(
+                  { latitude: latitude, longitude: longitude },
+                  {
+                    latitude: path[0].latitude,
+                    longitude: path[0].longitude,
+                  }
+              ));	
+              if (isPointWithinRadius(
+                  { latitude: latitude, longitude: longitude },
+                  {
+                    latitude: path[0].latitude,
+                    longitude: path[0].longitude,
+                  },
+                  5
+              )) {
+                // Remove the first element from responseData
+                setPath(path.slice(1));
+
+                // Update currentWaypoint if more waypoints exist
+                if (path.length > 0) {
+                  setDestinationReached(false);
+                } else {
+                  setDestinationReached(true);
+                }
+              }
+            }
+          },
+
+          (error) => alert(JSON.stringify(error)),
+          { enableHighAccuracy: true, distanceFilter: 1 }
+      );
+
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+      };
+    } else {
+      console.error('Geolocation API is not supported in this browser.');
+      setError('Geolocation is not supported in your browser.');
+    }
+  }, [latitude, longitude, path]);
 
   return (
-    <main>
-      <div className="app h-screen flex flex-col justify-center items-center">
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <SelectDestination
+        setDestination={changeDestination}
+      />
 
-        <div className="select flex flex-col justify-center items-center">
-          <select name="destination" id="destination-select">
-            <option value="test">Tets</option>
-          </select>
-          <button id="destination-submit">Navigate!</button>
-        </div>
-        {error??"sex"}
-        {path ? path[0]["name"]: "no path"}
+      <div className="compass">
 
-      {/* {compass} */}
       </div>
-    </main>
-    
-  );
+
+
+    </div>
+  )
+
 }

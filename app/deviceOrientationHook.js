@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 export const useDeviceOrientation = () => {
-    const [error, setError] = useState(null);
+    const [orientationError, setOrientationError] = useState(null);
     const [orientation, setOrientation] = useState(null);
 
     const onDeviceOrientation = (event) => {
@@ -21,7 +21,7 @@ export const useDeviceOrientation = () => {
     const requestAccessAsync = async () => {
 
         if (!DeviceOrientationEvent) {
-            setError(new Error("Device orienation is not supported on this browser"));
+            setOrientationError(new Error("Device orienation is not supported on this browser"));
             return false;   
         }
 
@@ -33,11 +33,11 @@ export const useDeviceOrientation = () => {
             try {
                 permission = await DeviceOrientationEvent.requestPermission();
             } catch (err) {
-                setError(err);
+                setOrientationError(err);
                 return false;
             }
             if (permission !== "granted") {
-                setError("not granted");
+                setOrientationError("not granted");
                 return false;
             }
         }
@@ -56,6 +56,6 @@ export const useDeviceOrientation = () => {
         orientation,
         requestAccess,
         revokeAccess,
-        error,
+        orientationError,
     ];
 }
