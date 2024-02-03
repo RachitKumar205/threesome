@@ -68,6 +68,8 @@ export default function Home() {
   useEffect(() => {
     if (navigator.geolocation) {
       const watchId = navigator.geolocation.watchPosition((position) => {
+        console.log(latitude);
+        console.log(longitude);
         setLatitude(position.coords.latitude);
         setLongitude(position.coords.longitude);
 
@@ -126,6 +128,13 @@ export default function Home() {
 
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
+      <p>
+      {latitude}
+      </p>
+      <p>
+      {longitude}
+
+      </p>
       <SelectDestination
         setDestination={changeDestination}
       />
@@ -133,7 +142,7 @@ export default function Home() {
       {!isLoading && !error && (
         <>
           <div>
-            {/* Angle - {nextWaypointHeading} */}
+            Angle - {nextWaypointHeading}
             {path.map((item) => (
               <p>{item.latitude}</p>
             ))}
