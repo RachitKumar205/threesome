@@ -109,36 +109,6 @@ export default function Home() {
     }
   }, [latitude, longitude, path]);
 
-  useEffect(() => {
-    if (nextWaypoint) {
-      const rhumbLineBearing = getRhumbLineBearing({
-        latitude: latitude,
-        longitude: longitude,
-      }, {
-        latitude: nextWaypoint.latitude,
-        longitude: nextWaypoint.longitude,
-      })
-      
-      const greatCircleBearing = getGreatCircleBearing({
-        latitude: latitude,
-        longitude: longitude,
-      }, {
-        latitude: nextWaypoint.latitude,
-        longitude: nextWaypoint.longitude,
-      })
-
-      // const deltaX = nextWaypoint.latitude - latitude
-      // const deltaY = nextWaypoint.longitude - longitude
-
-      // const angleInRadians = Math.atan(deltaY, deltaX);
-      // const angleInDegress = (angleInRadians * 180) / Math.PI - 90;
-      // const normalizedAngle = (angleInDegress + 360) % 360;
-
-      // setNextWaypointHeading(rhumbLineBearing);
-      setNextWaypointHeading(greatCircleBearing);
-    }
-  }, [latitude, longitude, nextWaypoint])
-
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
       <p>Current Coords - {latitude}, {longitude}</p>
@@ -150,9 +120,9 @@ export default function Home() {
           <div className="diagnostics">
             Waypoints List- 
             {path.map((element, index) => (
-                <p>{index} - {element.latitude}, {element.longitude} - {element.wp_id}</p>
+                <p>{index} | {element.name} | {element.latitude} | {element.longitude} | {element.wp_id}</p>
             ))}
-            <p>Next Waypoint - {nextWaypoint.latitude}, {nextWaypoint.longitude} - {nextWaypoint.wp_id}</p>
+            <p>Next Waypoint - {nextWaypoint.name} | {nextWaypoint.latitude} | {nextWaypoint.longitude} | {nextWaypoint.wp_id}</p>
             <p>Distance - {distance}</p>
             <p>Angle to next waypoint - {nextWaypointHeading}</p>
             <p>180+Angle to next waypoint - {180+nextWaypointHeading}</p>
@@ -166,8 +136,8 @@ export default function Home() {
                 latitude: latitude,
                 longitude: longitude,
               }, {
-                latitude: 28.523798,
-                longitude: 77.573671,
+                latitude: nextWaypoint.latitude,
+                longitude: nextWaypoint.latitude,
               })}
               testOffset={0}
             />
