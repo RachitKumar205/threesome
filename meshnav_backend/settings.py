@@ -28,12 +28,13 @@ SECRET_KEY = "django-insecure-r35j=j9_$h&at6p+ac1ze@cbaw(rht&f_f&&ec$h#j@&oir4e+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['meshnav.azurewebsites.net']
+ALLOWED_HOSTS = ['meshnav.azurewebsites.net', 'localhost']
 
-CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ["https://meshnav.azurewebsites.net",'http://127.0.0.1', 'http://localhost:8000']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8000"
 ]
 
 
