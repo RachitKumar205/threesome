@@ -7,6 +7,8 @@ import SelectDestination from "@/components/SelectDestination/SelectDestination"
 
 import {getDistance, getPreciseDistance, isPointWithinRadius} from "geolib";
 
+import arrowDarkSVG from "../public/arrow-dark.svg";
+
 export default function Home() {
   const [destination, setDestination] = useState(null);
   const [path, setPath] = useState(null);
@@ -15,7 +17,11 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [distance, setDistance] = useState(null);
   const [nextWaypoint, setNextWaypoint] = useState(null);
+  const [nextWaypointHeading, setNextWaypointHeading] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [compassToggled, setCompassToggled] = useState(false);
+  const [orienation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
+
 
   const changeDestination = (destination) => {
     setDestination(destination);
@@ -52,6 +58,11 @@ export default function Home() {
         setIsLoading(false);
       }
     })();
+
+    if (!compassToggled) {
+      requestAccess();
+      setCompassToggled(true); 
+    }
   }
 
   useEffect(() => {
@@ -73,6 +84,8 @@ export default function Home() {
             setPath(path.slice(1));
             if (path.length > 0) {
               setNextWaypoint(path[0]);
+            } else {
+              setNextWaypoint(null);
             }
           }
 
@@ -92,12 +105,40 @@ export default function Home() {
     }
   }, [latitude, longitude, path]);
 
+  useEffect(() => {
+    if (nextWaypoint) {
+      const deltaX = nextWaypoint.latitude - latitude;
+      const deltaY = nextWaypoint.longitude - longitude;
+  
+      let theta;
+      if (deltaY > 0 && deltaX > 0) {
+        theta = Math.PI / 2 - Math.atan(deltaY / deltaX);
+      } else if (deltaY < 0 && deltaX < 0) {
+        theta = (3 * Math.PI / 2) - Math.atan(deltaY / deltaX);
+      } else if (deltaY < 0 && deltaX > 0) {
+        theta = Math.atan(deltaY / deltaX) + (Math.PI / 2);
+      } else if (deltaY > 0 && deltaX < 0) {
+        theta = Math.atan(deltaY / deltaX) + (3 * Math.PI / 2);
+      }
+      setNextWaypointHeading(180 * theta / Math.PI);
+    }
+  }, [latitude, longitude, nextWaypoint])
+
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
       <SelectDestination
         setDestination={changeDestination}
       />
       {!isLoading && !error && (
+        <div className="compass">
+          <Image
+            src={arrowDarkSVG}
+            style={{transform: `rotate(${Math.round((orienation && orienation.alpha)??360 - 360) + nextWaypointHeading??0})deg`}}
+          />
+        </div>
+      )}
+
+      {/* {!isLoading && !error && (
         <>
           <div>
             {path.map((item) => (
@@ -105,7 +146,7 @@ export default function Home() {
             ))}
           </div>
         </>
-      )}
+      )} */}
     </div>
   )
 

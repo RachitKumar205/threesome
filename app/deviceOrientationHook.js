@@ -5,7 +5,6 @@ export const useDeviceOrientation = () => {
     const [orientation, setOrientation] = useState(null);
 
     const onDeviceOrientation = (event) => {
-
         setOrientation({
             alpha: event.alpha.toFixed(3),
             beta: event.beta.toFixed(3),
