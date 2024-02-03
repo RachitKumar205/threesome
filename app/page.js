@@ -21,9 +21,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [compassToggled, setCompassToggled] = useState(false);
   const [orienation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
-
-
+  
+  
   const changeDestination = (destination) => {
+    if (!compassToggled) {
+      requestAccess();
+      setCompassToggled(true); 
+    }
     setDestination(destination);
     setIsLoading(true);
     (async () => {
@@ -59,10 +63,6 @@ export default function Home() {
       }
     })();
 
-    if (!compassToggled) {
-      requestAccess();
-      setCompassToggled(true); 
-    }
   }
 
   useEffect(() => {
