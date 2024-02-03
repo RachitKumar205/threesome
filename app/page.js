@@ -178,6 +178,7 @@ export default function Home() {
             <p>Distance - {distance}</p>
             <p>Angle to next waypoint - {nextWaypointHeading}</p>
             <p>180+Angle to next waypoint - {180+nextWaypointHeading}</p>
+            <p>north - {(orientation && orientation.alpha)??360 - 360}</p>
           </div>
           <div className="compi">
             <div className="compass">
