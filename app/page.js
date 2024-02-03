@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import SelectDestination from "@/components/SelectDestination/SelectDestination";
 
-import {getDistance, getRhumbLineBearing} from "geolib";
+import {getDistance, getRhumbLineBearing, getGreatCircleBearing} from "geolib";
 
 import arrowDarkSvg from "../public/arrow-dark.svg";
 import Compass from "@/components/Compass/Compass";
@@ -111,58 +111,33 @@ export default function Home() {
 
   useEffect(() => {
     if (nextWaypoint) {
-      // const compassHeading = getRhumbLineBearing({
-      //   latitude: latitude,
-      //   longitude: longitude,
-      // }, {
-      //   latitude: nextWaypoint.latitude,
-      //   longitude: nextWaypoint.longitude,
-      // })
+      const rhumbLineBearing = getRhumbLineBearing({
+        latitude: latitude,
+        longitude: longitude,
+      }, {
+        latitude: nextWaypoint.latitude,
+        longitude: nextWaypoint.longitude,
+      })
+      
+      const greatCircleBearing = getGreatCircleBearing({
+        latitude: latitude,
+        longitude: longitude,
+      }, {
+        latitude: nextWaypoint.latitude,
+        longitude: nextWaypoint.longitude,
+      })
 
-      const deltaX = nextWaypoint.latitude - latitude
-      const deltaY = nextWaypoint.longitude - longitude
+      // const deltaX = nextWaypoint.latitude - latitude
+      // const deltaY = nextWaypoint.longitude - longitude
 
-      const angleInRadians = Math.atan(deltaY, deltaX);
-      const angleInDegress = (angleInRadians * 180) / Math.PI - 90;
-      const normalizedAngle = (angleInDegress + 360) % 360;
+      // const angleInRadians = Math.atan(deltaY, deltaX);
+      // const angleInDegress = (angleInRadians * 180) / Math.PI - 90;
+      // const normalizedAngle = (angleInDegress + 360) % 360;
 
-      setNextWaypointHeading(normalizedAngle);
+      // setNextWaypointHeading(rhumbLineBearing);
+      setNextWaypointHeading(greatCircleBearing);
     }
   }, [latitude, longitude, nextWaypoint])
-
-  // const compass1 = (
-  //   <div className="compass">
-  //     <p>nextWaypoint - {nextWaypointHeading}</p>
-  //     <p>Alpha - {orientation && orientation.alpha}</p>
-  //     <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}</p>
-  //     <Image
-  //       src={arrowDarkSVG}
-  //       style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) + nextWaypointHeading)}deg)`}}
-  //     />
-  //   </div>
-  // )
-
-  const compass = () => {
-    return (
-      <div className="compass">
-        <p>Alpha : {orientation.alpha}</p>
-        <p>Alpha-360 : {orientation.alpha - 360}</p>
-        <p></p>
-      </div>
-    )
-  }
-
-  // const compass2 = (
-  //   <div className="compass">
-  //     <p>nextWaypoint - {nextWaypointHeading}</p>
-  //     <p>Alpha - {orientation && orientation.alpha}</p>
-  //     <p>Rotation - {(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}</p>
-  //     <Image
-  //       src={arrowDarkSVG}
-  //       style={{transform: `rotate(${(Math.round((orientation && orientation.alpha)??360 - 360) - nextWaypointHeading)}deg)`}}
-  //     />
-  //   </div>
-  // )
 
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
@@ -208,6 +183,17 @@ export default function Home() {
             <Compass
               northReset={((orientation && orientation.alpha)??360) - 360}
               waypointHeading={0}
+              testOffset={0}
+            />
+            <Compass
+              northReset={((orientation && orientation.alpha)??360) - 360}
+              waypointHeading={getGreatCircleBearing({
+                latitude: latitude,
+                longitude: longitude,
+              }, {
+                latitude: 28.523798,
+                longitude: 77.573671,
+              })}
               testOffset={0}
             />
           </div>
