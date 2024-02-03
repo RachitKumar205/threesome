@@ -2,20 +2,36 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDeviceOrientation } from "./deviceOrientationHook";
+import axios from "axios";
 
 import arrowDark from "../public/arrow-dark.svg"
 
 export default function Home() {
-  const [orienation, requestAccess, revokeAccess, error] = useDeviceOrientation();
+  const [orienation, requestAccess, revokeAccess, orientationError] = useDeviceOrientation();
   const [isToggled, setIsToggled] = useState(false);
   const [destination, setDestination] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [path, setPath] = useState(null);
+  const [error, setError] = useState(null);
 
   // Getting coordinates
-
 
   // Getting compass heading
   useEffect(() => {
     const handleClick = () => {
+      const fetchPath = async () => {
+        try {
+          const response = await axios.get(
+            `https://offset-frontend.vercel.app/`
+          )
+          setPath(response);
+        } catch (error) {
+          setError(error);
+        }
+      }
+
+      fetchPath();
       if (!isToggled) {
         requestAccess();
         setIsToggled(true);
@@ -53,8 +69,9 @@ export default function Home() {
           </select>
           <button id="destination-submit">Navigate!</button>
         </div>
+        {path}
 
-      {compass}
+      {/* {compass} */}
       </div>
     </main>
     
