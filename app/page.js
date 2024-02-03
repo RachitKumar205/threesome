@@ -25,6 +25,7 @@ export default function Home() {
           const response = await axios.get(
             `https://snunav.azurewebsites.net/meshnav/`
           )
+          console.log(response);
           setPath(response);
         } catch (error) {
           setError(error);
