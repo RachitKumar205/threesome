@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import SelectDestination from "@/components/SelectDestination/SelectDestination";
 
-import {getDistance, getPreciseDistance, isPointWithinRadius} from "geolib";
+import {getDistance, getRhumbLineBearing} from "geolib";
 
 import arrowDarkSvg from "../public/arrow-dark.svg";
 import Compass from "@/components/Compass/Compass";
@@ -110,20 +110,14 @@ export default function Home() {
 
   useEffect(() => {
     if (nextWaypoint) {
-      const deltaX = nextWaypoint.latitude - latitude;
-      const deltaY = nextWaypoint.longitude - longitude;
-  
-      let theta;
-      if (deltaY > 0 && deltaX > 0) {
-        theta = Math.PI / 2 - Math.atan(deltaY / deltaX);
-      } else if (deltaY < 0 && deltaX < 0) {
-        theta = (3 * Math.PI / 2) - Math.atan(deltaY / deltaX);
-      } else if (deltaY < 0 && deltaX > 0) {
-        theta = Math.atan(deltaY / deltaX) + (Math.PI / 2);
-      } else if (deltaY > 0 && deltaX < 0) {
-        theta = Math.atan(deltaY / deltaX) + (3 * Math.PI / 2);
-      }
-      setNextWaypointHeading(180 * theta / Math.PI);
+      const compassHeading = getRhumbLineBearing({
+        latitude: latitude,
+        longitude: longitude,
+      }, {
+        latitude: nextWaypoint.latitude,
+        longitude: nextWaypoint.longitude,
+      })
+      setNextWaypointHeading(compassHeading);
     }
   }, [latitude, longitude, nextWaypoint])
 
@@ -163,8 +157,7 @@ export default function Home() {
 
   return (
     <div className="app min-h-screen flex flex-col justify-center items-center">
-      <p>Current latitude - {latitude}</p>
-      <p>Current longitude - {longitude}</p>
+      <p>Current Coords - {latitude}, {longitude}</p>
       <SelectDestination setDestination={changeDestination}/>
       {isLoading && <p>Loading Path...</p>}
       {!isLoading && !error && (
@@ -181,61 +174,6 @@ export default function Home() {
             <p>north - {(orientation && orientation.alpha)??360 - 360}</p>
           </div>
           <div className="compi">
-            {/* <div className="compass">
-              <Image
-                src={arrowDarkSvg}
-                style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 0}deg)`}}
-              />
-              <p>waypointHeading - {nextWaypointHeading}</p>
-              <p>testOffset - {0}</p>
-
-              <p>1+2 - {(nextWaypointHeading + 0) - 360 * (Math.floor((nextWaypointHeading + 0)/360))}</p>
-              <hr/>
-            </div>
-            <div className="compass">
-              <Image
-                src={arrowDarkSvg}
-                style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 90}deg)`}}
-              />
-              <p>waypointHeading - {nextWaypointHeading}</p>
-              <p>testOffset - {90}</p>
-
-              <p>1+2 - {(nextWaypointHeading + 90) - 360 * (Math.floor((nextWaypointHeading + 90)/360))}</p>
-              <hr/>
-            </div>
-            <div className="compass">
-              <Image
-                src={arrowDarkSvg}
-                style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 180}deg)`}}
-              />
-              <p>waypointHeading - {nextWaypointHeading}</p>
-              <p>testOffset - {180}</p>
-              <p>1+2 - {(nextWaypointHeading + 180) - 360 * (Math.floor((nextWaypointHeading + 180)/360))}</p>
-              <p>Final - {}</p>
-              <hr/>
-            </div>
-            <div className="compass">
-              <Image
-                src={arrowDarkSvg}
-                style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 270}deg)`}}
-              />
-              <p>waypointHeading - {nextWaypointHeading}</p>
-              <p>testOffset - {270}</p>
-
-              <p>1+2 - {(nextWaypointHeading + 270) - 360 * (Math.floor((nextWaypointHeading + 270)/360))}</p>
-              <hr/>
-            </div>
-            <div className="compass">
-              <Image
-                src={arrowDarkSvg}
-                style={{transform: `rotate(${(orientation && orientation.alpha)??360 - 360 + nextWaypointHeading + 360}deg)`}}
-              />
-              <p>waypointHeading - {nextWaypointHeading}</p>
-              <p>testOffset - {360}</p>
-
-              <p>1+2 - {(nextWaypointHeading + 360) - 360 * (Math.floor((nextWaypointHeading + 90)/360))}</p>
-              <hr/>
-            </div> */}
             <Compass
               northReset={(orientation && orientation.alpha)??360 - 360}
               waypointHeading={nextWaypointHeading}
