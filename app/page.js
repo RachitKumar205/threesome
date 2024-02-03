@@ -20,7 +20,7 @@ export default function Home() {
   // Getting compass heading
   useEffect(() => {
     const handleClick = () => {
-      const fetchPath = async () => {
+      (async () => {
         try {
           const response = await axios.get(
             `https://offset-frontend.vercel.app/`
@@ -29,9 +29,8 @@ export default function Home() {
         } catch (error) {
           setError(error);
         }
-      }
-
-      fetchPath();
+      })();
+      
       if (!isToggled) {
         requestAccess();
         setIsToggled(true);
