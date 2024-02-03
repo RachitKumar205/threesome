@@ -42,7 +42,7 @@ export default function Home() {
           <select name="destination" id="destination-select">
             <option value="test">Tets</option>
           </select>
-          <button onClick={navigateClick()}>Navigate!</button>
+          <button>Navigate!</button>
         </div>
 
         <div>
