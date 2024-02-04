@@ -71,7 +71,7 @@ function CreateWaypoint() {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://snunav.azurewebsites.net/meshnav/', {
+            const response = await axios.post('https://meshnav.azurewebsites.net/nav/', {
                 name,
                 wp_id,
                 latitude,
@@ -93,11 +93,9 @@ function CreateWaypoint() {
 
     return (
         <>
-            <div className={"w-full flex border-b border-b-nav-purple bg-nav-purple p-3"}>
+            <div className={"w-full flex align-middle justify-center border-b border-b-gray-800"}>
                 <div className={"flex"}>
-                    <NavigationMenu className={"p-2 flex flex-row "}>
-                        <p className={"text-3xl mx-4 text-white"}>meshNav Admin</p>
-
+                    <NavigationMenu className={"p-2 flex justify-center flex-row "}>
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuLink href="/create" className={navigationMenuTriggerStyle()}>
@@ -110,7 +108,7 @@ function CreateWaypoint() {
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink href="/waypoints" className={navigationMenuTriggerStyle()}>
+                                <NavigationMenuLink href="/list" className={navigationMenuTriggerStyle()}>
                                     Waypoint List
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
@@ -118,6 +116,7 @@ function CreateWaypoint() {
                     </NavigationMenu>
                 </div>
             </div>
+
             <div className={"flex items-center justify-center flex-col w-full md:flex-row"}>
                 {error && <p>Error: {error}</p>}
                 <form onSubmit={handleSubmit} className="w-screen md:w-[350px] mt-40">

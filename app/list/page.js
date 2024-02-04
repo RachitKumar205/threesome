@@ -61,11 +61,9 @@ function WaypointList() {
 
     return (
         <>
-            <div className={"w-full flex border-b border-b-nav-purple bg-nav-purple p-3"}>
+            <div className={"w-full flex align-middle justify-center border-b border-b-gray-800"}>
                 <div className={"flex"}>
-                    <NavigationMenu className={"p-2 flex flex-row "}>
-                        <p className={"text-3xl mx-4 text-white"}>meshNav Admin</p>
-
+                    <NavigationMenu className={"p-2 flex justify-center flex-row "}>
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuLink href="/create" className={navigationMenuTriggerStyle()}>
@@ -78,7 +76,7 @@ function WaypointList() {
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink href="/waypoints" className={navigationMenuTriggerStyle()}>
+                                <NavigationMenuLink href="https://google.com/" className={navigationMenuTriggerStyle()}>
                                     Waypoint List
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
@@ -87,42 +85,39 @@ function WaypointList() {
                 </div>
             </div>
 
-            <div className={"flex items-center align-middle justify-center flex-col w-full md:flex-row"}>
+            <div className={"flex items-center justify-center flex-col w-full md:flex-row"}>
                 {error && <p>Error: {error}</p>}
+                <div className={"flex w-full md:w-fit"}>
+                    <Card className={"w-full"}>
+                        <CardHeader>
+                            <CardTitle className={"text-2xl"}>List of waypoints</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="w-[100px]">Name</TableHead>
+                                        <TableHead>wp_id</TableHead>
+                                        <TableHead>Latitude</TableHead>
+                                        <TableHead className="text-right">Longitude</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {data.map((item) => (
+                                        <>
+                                            <TableRow key={item.id}>
+                                                <TableCell>{item.name}</TableCell>
+                                                <TableCell>{item.wp_id}</TableCell>
+                                                <TableCell>{item.latitude}</TableCell>
+                                                <TableCell>{item.longitude}</TableCell>
+                                            </TableRow>
+                                        </>
+                                    ))}
 
-                <div>
-                    <div className={"mt-8 w-1/3 md:w-fit"}>
-                        <Card className={"w-full"}>
-                            <CardHeader>
-                                <CardTitle className={"text-2xl"}>List of waypoints</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[100px]">Name</TableHead>
-                                            <TableHead>wp_id</TableHead>
-                                            <TableHead>Latitude</TableHead>
-                                            <TableHead className="text-right">Longitude</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {data.map((item) => (
-                                            <>
-                                                <TableRow key={item.id}>
-                                                    <TableCell>{item.name}</TableCell>
-                                                    <TableCell>{item.wp_id}</TableCell>
-                                                    <TableCell>{item.latitude}</TableCell>
-                                                    <TableCell>{item.longitude}</TableCell>
-                                                </TableRow>
-                                            </>
-                                        ))}
-
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </div>
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </>

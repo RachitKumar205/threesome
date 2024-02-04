@@ -1,1 +1,1 @@
-export const apiDomain = 'https://meshnav.azurewebsites.net';
+export const apiDomain = 'https://meshnav.azurewebsites.net/';
